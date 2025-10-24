@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "driver": "pg",
+    "username": "postgres",
+    "password": "zxzvzm321",
+    "database": "StoreFront",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "driver": "pg",
+    "username": "postgres",
+    "password": "zxzvzm321",
+    "database": "test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}
