@@ -7,6 +7,8 @@
 4- Run "npm run build" in the terminal to build and start the server.
 5- Run "npm run test" to run the models and endpoints tests.
 
+NOTE: use the port 5432 or dont use any port and the code will use the port 5432
+
 # Storefront Backend Project
 
 ## Getting Started

@@ -36,14 +36,6 @@ const create = async (req: Request, res: Response) => {
   };
 
   try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
-  } catch (err) {
-    res.status(401);
-    res.json(`invalid token ${err}`);
-    return;
-  }
-
-  try {
     const newOrder = await store.create(order);
     res.json(newOrder);
   } catch (err) {
@@ -63,13 +55,6 @@ const destroy = async (req: Request, res: Response) => {
 };
 
 const addProduct = async (req: Request, res: Response) => {
-  try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
-  } catch (err) {
-    res.status(401);
-    res.json(`invalid token ${err}`);
-    return;
-  }
 
   try {
     const orderProduct = await store.addProduct(
@@ -96,7 +81,8 @@ const showProducts = async (req: Request, res: Response) => {
 
 const showCurrentOrder = async (req: Request, res: Response) => {
   try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
   } catch (err) {
     res.status(401);
     res.json(`invalid token ${err}`);
@@ -116,7 +102,8 @@ const showCurrentOrder = async (req: Request, res: Response) => {
 
 const showCompletedOrders = async (req: Request, res: Response) => {
   try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
   } catch (err) {
     res.status(401);
     res.json(`invalid token ${err}`);

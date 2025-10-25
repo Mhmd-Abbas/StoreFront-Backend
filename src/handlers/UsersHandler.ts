@@ -12,7 +12,8 @@ const store = new Users();
 const index = async (req: Request, res: Response) => {
 
   try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
   } catch (err) {
     res.status(401);
     res.json(`invalid token ${err}`);
@@ -30,7 +31,8 @@ const index = async (req: Request, res: Response) => {
 
 const show = async (req: Request, res: Response) => {
   try {
-      jwt.verify(req.body.token, TOKEN_SECRET as string);
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
     } catch (err) {
       res.status(401);
       res.json(`invalid token ${err}`);
@@ -56,8 +58,8 @@ const create = async (req: Request, res: Response) => {
 
   try{
     const newUser = await store.create(user);
-    var token = jwt.sign({ newUser }, TOKEN_SECRET as string);
-    res.json(token);
+    var token = jwt.sign({ userId: newUser.id }, TOKEN_SECRET as string);
+    res.json({token});
   } catch (err) {
     res.status(400);
     res.json(err);

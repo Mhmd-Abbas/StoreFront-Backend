@@ -48,9 +48,9 @@ describe("Users Model", () => {
   });
 
   it("delete method should remove the User", async () => {
-    store.delete(testuser.id as number);
+    await store.delete(testuser.id as number);
     const result = await store.show(testuser.id as number);
-
+    
     expect(result).toBeUndefined();
   });
 });

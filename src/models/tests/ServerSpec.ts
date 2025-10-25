@@ -37,11 +37,11 @@ describe("Endpoint Tests", () => {
 
       const response = await request
         .post("/Products")
+         .set("Authorization", `Bearer ${TEST_TOKEN}`)
         .send({
           name: "Test Product",
           price: 99,
           category_id: testcat.id as number,
-          token: TEST_TOKEN
         });
 
       expect(response.status).toBe(200);
@@ -56,7 +56,6 @@ describe("Endpoint Tests", () => {
         firstname: "new",
         lastname: "user",
         password: "123456",
-        token: TEST_TOKEN
       });
 
       expect(response.status).toBe(200);
@@ -65,9 +64,7 @@ describe("Endpoint Tests", () => {
     it("GET /Users - should return all users (token required)", async () => {
       const response = await request
         .get("/Users")
-        .send({
-          token: TEST_TOKEN
-        })
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
 
       expect(response.status).toBe(200);
     });
@@ -75,9 +72,7 @@ describe("Endpoint Tests", () => {
     it("GET /Users/:id - should return a single user (token required)", async () => {
       const response = await request
         .get("/users/1")
-        .send({
-          token: TEST_TOKEN
-        })
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
 
       expect(response.status).toBe(200);
     });
@@ -89,9 +84,7 @@ describe("Endpoint Tests", () => {
 
       const response = await request
         .get("/Orders/Active/1")
-        .send({
-          token: TEST_TOKEN
-        })
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
 
       expect(response.status).toBe(200);
     });
@@ -99,9 +92,7 @@ describe("Endpoint Tests", () => {
     it("GET /Orders/Completed/:user_id - should return completed orders for a user", async () => {
       const response = await request
         .get("/orders/completed/1")
-        .send({
-          token: TEST_TOKEN
-        })
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
 
       expect(response.status).toBe(200);
     });

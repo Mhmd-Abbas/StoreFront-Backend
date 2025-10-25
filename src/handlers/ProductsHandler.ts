@@ -37,7 +37,8 @@ const create = async (req: Request, res: Response) => {
   };
 
   try {
-    jwt.verify(req.body.token, TOKEN_SECRET as string);
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
   } catch (err) {
     res.status(401);
     res.json(`invalid token ${err}`);
