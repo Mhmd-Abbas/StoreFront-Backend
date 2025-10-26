@@ -24,6 +24,9 @@ describe("Categories Model", () => {
       id: jasmine.any(Number),
       name: "newCategory",
     });
+
+    await store.delete(result.id as number)
+
   });
 
   it("show method should return the correct Category", async () => {
@@ -41,4 +44,5 @@ describe("Categories Model", () => {
 
     expect(result).toBeUndefined();
   });
+
 });

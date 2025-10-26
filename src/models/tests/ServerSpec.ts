@@ -1,15 +1,15 @@
 import supertest from "supertest";
 import app from "../../server";
-import dotenv from "dotenv"
 import { Categories, Category } from "../Categories";
-import { Product, Products } from "../Products";
+import { Products } from "../Products";
+import { Users } from "../Users";
 
-dotenv.config();
-
-const { TEST_TOKEN } = process.env;
 
 const CatStore = new Categories();
+const ProductStore = new Products();
+const UsersStore = new Users();
 let testcat: Category;
+let TEST_TOKEN: string;
 
 const request = supertest(app);
 
@@ -19,7 +19,39 @@ describe("Endpoint Tests", () => {
     testcat = await CatStore.create({
       name:"test"
     } as Category)
+
   })
+
+  describe("Users Endpoints", () => {
+    it("POST /Users - should create a new user (token required)", async () => {
+      const response = await request.post("/Users")
+      .send({
+        firstname: "inside ServerSpec",
+        lastname: "new user",
+        password: "123456",
+      });
+
+      TEST_TOKEN = response.body.token
+      expect(response.status).toBe(200);
+      await UsersStore.delete(response.body.id)
+    });
+
+    it("GET /Users - should return all users (token required)", async () => {
+      const response = await request
+        .get("/Users")
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
+      expect(response.status).toBe(200);
+    });
+
+    it("GET /Users/:id - should return a single user (token required)", async () => {
+      const response = await request
+        .get("/users/1")
+        .set("Authorization", `Bearer ${TEST_TOKEN}`)
+
+      expect(response.status).toBe(200);
+    });
+  });
+
 
   describe("Products Endpoints", () => {
 
@@ -45,36 +77,7 @@ describe("Endpoint Tests", () => {
         });
 
       expect(response.status).toBe(200);
-    });
-  });
-
-
-  describe("Users Endpoints", () => {
-    it("POST /Users - should create a new user (token required)", async () => {
-      const response = await request.post("/Users")
-      .send({
-        firstname: "new",
-        lastname: "user",
-        password: "123456",
-      });
-
-      expect(response.status).toBe(200);
-    });
-
-    it("GET /Users - should return all users (token required)", async () => {
-      const response = await request
-        .get("/Users")
-        .set("Authorization", `Bearer ${TEST_TOKEN}`)
-
-      expect(response.status).toBe(200);
-    });
-
-    it("GET /Users/:id - should return a single user (token required)", async () => {
-      const response = await request
-        .get("/users/1")
-        .set("Authorization", `Bearer ${TEST_TOKEN}`)
-
-      expect(response.status).toBe(200);
+      await ProductStore.delete(response.body.id);
     });
   });
 
@@ -97,4 +100,9 @@ describe("Endpoint Tests", () => {
       expect(response.status).toBe(200);
     });
   });
+
+  afterAll( async () => {
+    await CatStore.delete(testcat.id as number)
+  })
+  
 });

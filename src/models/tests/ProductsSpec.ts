@@ -11,11 +11,11 @@ describe("Products Model", () => {
   beforeAll(async() => {
 
     testcat = await CatStore.create({
-      name: "test"
+      name: "insideProductTest"
     } as Category)
 
     testproduct = await store.create({
-      name: "test",
+      name: "insideProductTest",
       price: 1,
       category_id: testcat.id as number
     } as Product);
@@ -64,4 +64,5 @@ describe("Products Model", () => {
   afterAll(async() => {
     await CatStore.delete(testcat.id as number)
   })
+  
 });

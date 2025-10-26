@@ -7,7 +7,22 @@
 4- Run "npm run build" in the terminal to build and start the server.
 5- Run "npm run test" to run the models and endpoints tests.
 
-NOTE: use the port 5432 or dont use any port and the code will use the port 5432
+NOTE: please make sure to make an .env file that has these variable :
+
+POSTGERS_HOST
+POSTGRES_DB
+POSTGRES_NAME
+POSTGRES_PASS
+POSTGRES_PORT   // = 5432 or keep it empty (the project runs on port 5432 on defualt)
+ENV   // = test or dev
+POSTGRES_TEST_DB   // = test
+BCRYPT_PASSWORD   // (Random string)
+SALT_ROUNDS   // (Random Int  ex: 10)
+PEPPER    // (Random string)
+TOKEN_SECRET   // (Random string)
+
+or else the tests will fail
+
 
 # Storefront Backend Project
 
