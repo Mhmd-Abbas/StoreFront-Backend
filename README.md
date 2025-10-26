@@ -9,17 +9,17 @@
 
 NOTE: please make sure to make an .env file that has these variable :
 
-POSTGERS_HOST
-POSTGRES_DB
-POSTGRES_NAME
-POSTGRES_PASS
-POSTGRES_PORT   // = 5432 or keep it empty (the project runs on port 5432 on defualt)
+POSTGERS_HOST    // should be "localhost" if you are using postgres locally
+POSTGRES_DB = StoreFront
+POSTGRES_NAME   // the name you use for postgres
+POSTGRES_PASS   // the password you use for postgres
+POSTGRES_PORT = 5432   // keep it empty (the project runs on port 5432 on defualt)
 ENV   // = test or dev
-POSTGRES_TEST_DB   // = test
-BCRYPT_PASSWORD   // (Random string)
-SALT_ROUNDS   // (Random Int  ex: 10)
-PEPPER    // (Random string)
-TOKEN_SECRET   // (Random string)
+POSTGRES_TEST_DB = test
+BCRYPT_PASSWORD   // (Random string, ex: this-is-a-random-bcrypt-pass)
+SALT_ROUNDS   // (Random number,  ex: 10)
+PEPPER    // (Random string, ex: @ks/nkasnco)
+TOKEN_SECRET   // (Random string, ex: this-is-a-random-token-secret)
 
 or else the tests will fail
 
