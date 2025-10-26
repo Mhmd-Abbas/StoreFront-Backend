@@ -67,6 +67,16 @@ const create = async (req: Request, res: Response) => {
 };
 
 const destroy = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const user = await store.delete(req.params.id as unknown as number);
     res.json(user);
@@ -77,6 +87,16 @@ const destroy = async (req: Request, res: Response) => {
 };
 
 const authenticate = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const password = await store.authenticate(req.body.firstName as string, req.body.lastName as string, req.body.password as string);
     res.json(password);

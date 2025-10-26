@@ -9,7 +9,17 @@ const { TOKEN_SECRET } = process.env;
 
 const store = new Orders();
 
-const index = async (_req: Request, res: Response) => {
+const index = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const orders = await store.index();
     res.json(orders);
@@ -20,6 +30,16 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const order = await store.show(req.params.id as unknown as number);
     res.json(order);
@@ -36,6 +56,15 @@ const create = async (req: Request, res: Response) => {
   };
 
   try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
+  try {
     const newOrder = await store.create(order);
     res.json(newOrder);
   } catch (err) {
@@ -45,6 +74,16 @@ const create = async (req: Request, res: Response) => {
 };
 
 const destroy = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const order = await store.delete(req.params.id as unknown as number);
     res.json(order);
@@ -55,6 +94,15 @@ const destroy = async (req: Request, res: Response) => {
 };
 
 const addProduct = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
 
   try {
     const orderProduct = await store.addProduct(
@@ -70,6 +118,16 @@ const addProduct = async (req: Request, res: Response) => {
 };
 
 const showProducts = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const products = await store.showProducts(req.params.id as unknown as number);
     res.json(products);
@@ -80,6 +138,7 @@ const showProducts = async (req: Request, res: Response) => {
 };
 
 const showCurrentOrder = async (req: Request, res: Response) => {
+  
   try {
     const token = req.headers.authorization?.split(" ")[1];
     jwt.verify(token as string, TOKEN_SECRET as string);

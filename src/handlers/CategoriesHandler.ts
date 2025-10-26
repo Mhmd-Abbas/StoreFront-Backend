@@ -9,7 +9,17 @@ const { TOKEN_SECRET } = process.env;
 
 const store = new Categories();
 
-const index = async (_req: Request, res: Response) => {
+const index = async (req: Request, res: Response) => {
+
+  try {
+      const token = req.headers.authorization?.split(" ")[1];
+      jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+      res.status(401);
+      res.json(`invalid token ${err}`);
+      return;
+  }
+
   try {
     const categories = await store.index();
     res.json(categories);
@@ -20,6 +30,16 @@ const index = async (_req: Request, res: Response) => {
 };
 
 const show = async (req: Request, res: Response) => {
+
+  try {
+      const token = req.headers.authorization?.split(" ")[1];
+      jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+      res.status(401);
+      res.json(`invalid token ${err}`);
+      return;
+  }
+
   try {
     const category = await store.show(req.params.id as unknown as number);
     res.json(category);
@@ -35,11 +55,12 @@ const create = async (req: Request, res: Response) => {
   };
   
   try {
-    jwt.verify(req.body.token,TOKEN_SECRET as string)
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
   } catch (err) {
-    res.status(401)
-    res.json(`invalid token ${err}`)
-    return
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
   }
 
   try {
@@ -52,6 +73,16 @@ const create = async (req: Request, res: Response) => {
 };
 
 const destroy = async (req: Request, res: Response) => {
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    jwt.verify(token as string, TOKEN_SECRET as string);
+  } catch (err) {
+    res.status(401);
+    res.json(`invalid token ${err}`);
+    return;
+  }
+
   try {
     const category = await store.delete(req.params.id as unknown as number);
     res.json(category);
